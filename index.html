@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{padding: 0; margin: 0; box-sizing: border-box; font-family: 'Roboto', sans-serif;}
+        
+        .maindiv{
+            width: 100%;
+            height:100vh;
+            position: relative;
+            background: #5476b4;
+        }
+
+        .centerdiv{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+
+        }
+        .mainbtn{
+            background-color: #04AA6D; /* Green */
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+
+        }
+        .mainbtn:hover {
+            box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+}
+    </style>
+</head>
+<body>
+    <div class="maindiv">
+        <div class="centerdiv">
+            <h1>Welcome To Typing Speed</h1>
+            <h2 id="msg"></h2>
+            <textarea name="mywords" id="mywords" cols="100" rows="10" placeholder="remeber, be nice"></textarea>
+            <br>
+            <button id="btn" class="mainbtn">Start</button>
+        </div>
+    </div>
+    <script>
+        const setOfWords = ["Welcome, How to Create Typing Speed Test Website using HTML CSS & JavaScript in Hindi 2020.  In Typing Test",
+        "Website you can check your speed words minutes it's basic but useful.Source Code Link:", "building; an edifice.",
+        "A stage or floor of a building; hence, a subdivision of the height of a house; a set of rooms on the same level or floor.",
+        "A connected account or narration, oral or written, of events of the past; history.",
+        "An account of an event or incident a relation a recital: as stories of bravery.",
+        "In lit., a narrative, either true or fictitious, in prose or verse;", " a tale, written in a more or less imaginative style, of that which has happened or is supposed to have happened; specifically,",
+        " a fictitious tale, shorter and less elaborate than a novel; a short romance; a folk-tale.",
+        "The facts or events in a given case considered in their sequence, whether related or not",
+        "the experience or career of an individual: as, the story of a foundling; his is a sad story.",
+        "An anecdote: as, a speech abounding in good stories.",
+        "A report; an account; a statement; anything told: often used slightingly: as, according to his story, he did wonders.",
+        "A falsehood; a lie; a fib.The plot or intrigue of a novel or drama: as, many persons read a novel, or are interested in a play, only for the story.",
+        "A scene from history, legend, or romance, depicted by means of painting, sculpture, needlework, or other art of design."
+
+        ]
+        const msg = document.getElementById('msg')
+        const typeWords = document.getElementById('mywords')
+        const btn = document.getElementById('btn')
+        let startTime , endTime;
+        playGame = () => {
+            let randomNumber = Math.floor(Math.random()*setOfWords.length);
+            console.log(randomNumber)
+            msg.innerText = setOfWords[randomNumber]
+            let date = new Date();
+            startTime = date.getTime();
+            btn.innerText = "Done"
+        }
+        const wordCounter = (str) =>{
+            let response = str.split(" ").length;
+            return response
+        }
+        const compareWords = (htmlText, str) => {
+            let words1 = htmlText.split(" ");
+            let words2 = str.split(" ");
+            let cnt = 0;
+
+            words1.forEach(function (item,index) {
+                if (item == words2[index]){
+                    cnt++;
+                }                
+            });
+            let errorWords = (words1.length - cnt);
+            return (words2.length + " correct out of " + words1.length + " and error are " + errorWords + " .");
+
+
+
+        }
+        const endPlay = () => {
+            let date = new Date();
+            endTime = date.getTime();
+            let totalTime = ((endTime-startTime)/1000);
+            console.log(totalTime)
+            let totalStr = typeWords.value;
+            let wordCout = wordCounter(totalStr);
+            console.log(wordCout)
+            let speed = Math.round((wordCout/totalTime)*60);
+            console.log(speed)
+            let finalMsg = compareWords(msg.innerText, totalStr)
+            msg.innerText = speed + " Words Per Minute Typing Speed " + finalMsg;
+        }
+
+        btn.addEventListener('click', function(){
+            if(this.innerText == "Start"){
+                console.log("this", this)
+                typeWords.disabled = false;
+                playGame();
+            }else if(this.innerText == 'Done'){
+                typeWords.disabled = true;
+                btn.innerText = "start"
+                endPlay();
+
+            }
+        })
+
+    </script>
+</body>
+</html>
